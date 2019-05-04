@@ -1,0 +1,46 @@
+$dark: #171d35;
+.teacherMain {
+  padding: 40px 50px 0 30px;
+  .mainTitle {
+    padding-left: 20px;
+  }
+  .listContainer {
+    padding-top: 20px;
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+  }
+}
+
+.teacherBox {
+  padding: 25px 20px;
+  display: flex;
+  border-radius: 10px;
+  border: solid 1px #e7e7e7;
+  background-color: #ffffff;
+  cursor: pointer;
+  .shortName {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: $dark;
+  }
+  .teacherDtls {
+    padding-left: 15px;
+    .teacherName {
+      font-size: 16px;
+      color: $dark;
+    }
+    .title {
+      color: rgba(23, 29, 53, 0.6);
+    }
+    .empId {
+      color: $dark;
+    }
+  }
+}

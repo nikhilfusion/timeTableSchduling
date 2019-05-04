@@ -1,0 +1,133 @@
+$dark: #171d35;
+$pink: #f65c8c;
+.detailsContainer {
+  padding: 40px;
+  .backContainer {
+    display: flex;
+    align-items: center;
+    .leftArrow {
+      padding-right: 20px;
+      color: $pink;
+    }
+    .subTitle {
+      font-size: 24px;
+      font-weight: 500;
+      color: $dark;
+    }
+  }
+  .teacherDetails {
+    margin-top: 40px;
+  }
+  .ttDetails {
+    border-radius: 10px;
+    border: solid 1px #e7e7e7;
+    background-color: #ffffff;
+    margin-top: 20px;
+    .ttTitle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ttSubtitle {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      background-color: #f9f9f9;
+      .ttDetailsMain {
+        width: 184px;
+        padding: 10px 0 10px 10px;
+        background: rgb(255, 255, 255);
+        box-sizing: content-box;
+        .mainEmptyBox {
+          width: 180px;
+          height: 180px;
+          border-radius: 4px;
+          background-color: #fafafa;
+        }
+        .mainBox {
+          .classBox {
+            width: 180px;
+            height: 60px;
+            border-radius: 4px;
+            border: solid 1px #e7e7e7;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: $dark;
+          }
+          .subjectBox {
+            width: 180px;
+            height: 110px;
+            border-radius: 4px;
+            border: solid 1px #e7e7e7;
+            margin-top: 10px;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #4d73ff;
+            text-transform: uppercase;
+          }
+        }
+      }
+    }
+  }
+  .alternateList {
+    padding-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.rightSidebar {
+  position: absolute;
+  top: 80px;
+  right: 0;
+  width: 400px;
+  height: 100%;
+  background: #fff;
+  z-index: 100;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+  .insightsMain {
+    padding: 20px;
+    .insightTitle {
+      padding-left: 10px;
+      font-weight: 500;
+      color: $dark;
+    }
+    .insightDetails {
+      padding-top: 5px;
+      .insightDt {
+        border-radius: 5px;
+        border: solid 1px #ffa915;
+        background-color: rgba(255, 169, 21, 0.1);
+        padding: 15px 20px;
+        margin-top: 15px;
+      }
+    }
+  }
+  .footer {
+    padding: 20px 45px;
+    .cta {
+      border-radius: 4px;
+      padding: 15px 40px;
+      font-size: 16px;
+      height: 50px;
+    }
+    .cancel {
+      color: $dark;
+      border: solid 1px #e7e7e7;
+      background-color: #f6faff;
+    }
+    .assign {
+      border: solid 1px $pink;
+      background-color: $pink;
+      color: #fff;
+      margin-left: 20px;
+    }
+  }
+}

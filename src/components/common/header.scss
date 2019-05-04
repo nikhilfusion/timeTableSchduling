@@ -1,0 +1,54 @@
+$dark: #171d35;
+$pink: #f65c8c;
+.mainHeader {
+  height: 80px;
+  padding: 0 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  .title {
+    font-size: 20px;
+    font-weight: 500;
+    color: $dark;
+    cursor: pointer;
+    .pink {
+      color: $pink;
+    }
+  }
+  .searchBox {
+    .searchInput {
+      padding: 20px;
+      text-align: center;
+      width: 500px;
+      border-radius: 6px;
+      border: solid 1px #e7e7e7;
+      font-size: 16px;
+      background-color: #fafafa;
+    }
+    .searchIcon {
+      color: $pink;
+      position: absolute;
+      top: 32px;
+      left: 34%;
+      font-size: 16px;
+    }
+  }
+  .profile {
+    padding-right: 50px;
+  }
+}
+
+.footerMain {
+  bottom: 0;
+  padding: 25px 0;
+  text-align: center;
+  font-size: 16px;
+  color: #797979;
+  width: 100%;
+  .heart:before {
+    content: '\2665';
+    color: $pink;
+  }
+}
