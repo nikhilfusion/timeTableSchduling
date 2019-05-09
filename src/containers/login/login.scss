@@ -1,0 +1,15 @@
+.loginContainer {
+  width: 50%;
+  margin: 50px auto;
+  padding: 50px;
+  .inputField {
+    height: 40px;
+  }
+  .cta {
+    width: 100px;
+    height: 40px;
+    &.cancel {
+      margin-left: 30px;
+    }
+  }
+}

@@ -5,22 +5,22 @@ import moment from 'moment';
 import { API_URL } from '../../constants';
 import { convertJsonToQs } from '../../utils/common';
 import TeacherBox from '../../components/TeacherBox';
+import Header from '../../components/common/Header';
+
 import './details.scss';
 
 const hours = Array.from(new Array(7), (val, index) => index + 1);
-// const SUNDAY = 0;
-// const MONDAY = 1;
-// const TUESDAY = 2;
-// const WEDNESDAY = 3;
-// const THURSDAY = 4;
-// const FRIDAY = 5;
-// const SATURDAY = 6;
+
 export default class Details extends Component {
   state = {
     showSidebar: false,
     teacherHours: [],
     selectedDate: moment(new Date()).format('YYYY-MM-DD'),
-    teacherInfo: {}
+    teacherInfo: {},
+    alternateList: [],
+    freePeriodId: '',
+    subjectTeacherId: '',
+    insight: {}
   };
 
   componentDidMount() {
@@ -41,12 +41,12 @@ export default class Details extends Component {
       teacher
     });
     fetch(`${API_URL}/periods/?${params}`)
-      .then(results => results.json())
+      .then(res => res.json())
       .then(data => {
         if (data.results.length === 0) {
           message.error(
             'No Time Table found for this date. Try different date',
-            15
+            5
           );
           this.setState({
             teacherHours: []
@@ -67,46 +67,98 @@ export default class Details extends Component {
     });
   };
 
-  onBoxClicked = () => {
-    this.setState({
-      showSidebar: !this.state.showSidebar
-    });
+  onBoxClicked = alternateTeacherDtls => {
+    const { freePeriodId, selectedDate } = this.state;
+    const { id: teacherId } = alternateTeacherDtls;
+    fetch(
+      `${API_URL}/periods/${freePeriodId}/insights/?subject_teacher_id=${teacherId}&date=${selectedDate}`
+    )
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          showSidebar: !this.state.showSidebar,
+          subjectTeacherId: teacherId,
+          insight: data
+        });
+      })
+      .catch(() => message.error('Someting went wrong. Please try again'));
+  };
+
+  getAlternateTeachers = periodId => {
+    fetch(
+      `${API_URL}/periods/${periodId}/free-teachers/?date=${
+        this.state.selectedDate
+      }`
+    )
+      .then(results => results.json())
+      .then(data => {
+        if (data.results.length > 0) {
+          this.setState({
+            alternateList: data.results,
+            freePeriodId: periodId
+          });
+        } else {
+          message.error('No Free teacher found!!');
+        }
+      })
+      .catch(err => console.log('err is ', err));
+  };
+
+  assignAlternateTeacher = () => {
+    const { freePeriodId, selectedDate, subjectTeacherId } = this.state;
+    fetch(`${API_URL}/period-adjustments/`, {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        adjusted_date: selectedDate,
+        period: freePeriodId,
+        adjusted_by: subjectTeacherId
+      })
+    })
+      .then(results => results.json())
+      .then(data => {
+        if (data.non_field_errors.length > 0) {
+          message.error(data.non_field_errors[0]);
+        } else {
+          message.success('Peiod adjustment completed Successfully');
+          this.setState({
+            showSidebar: false
+          });
+        }
+      })
+      .catch(() => {
+        message.error('Someting went wrong. Please try again');
+      });
   };
 
   render() {
-    const alternateList = [
-      {
-        name: 'Fakhri Shokoohi',
-        subject: 'Malayalam',
-        mobile: '9043243224',
-        empId: '0120'
-      },
-      {
-        name: 'Leon Hunt',
-        subject: 'Physics',
-        mobile: '9563243224',
-        empId: '0124'
-      },
-      {
-        name: 'Jordanna Kitchener',
-        subject: 'Chemistry',
-        mobile: '9043234556',
-        empId: '0131'
-      },
-      {
-        name: 'Nuria Pelayo',
-        subject: 'Social',
-        mobile: '9956243224',
-        empId: '0129'
+    const {
+      showSidebar,
+      teacherHours,
+      teacherInfo,
+      alternateList,
+      insight: {
+        had_class_in_previous_period,
+        extra_periods_on_the_same_day,
+        have_class_in_next_period,
+        periods_in_the_same_class,
+        total_periods_allotted
       }
-    ];
-    const { showSidebar, teacherHours, teacherInfo } = this.state;
+    } = this.state;
     const { full_name: name, code, mobile } = teacherInfo;
     return (
       <div>
+        <Header />
         <div className="detailsContainer">
           <div className="backContainer">
-            <Icon type="arrow-left" className="leftArrow" />
+            <Icon
+              type="arrow-left"
+              className="leftArrow"
+              onClick={() => this.props.history.push('/teachers')}
+            />
             <div className="subTitle">Time Table</div>
           </div>
           <div className="teacherDetails">
@@ -142,6 +194,12 @@ export default class Details extends Component {
                 const selectedHour = _.filter(teacherHours, {
                   period_number: hour
                 });
+                const {
+                  classroom: { standard, division } = {},
+                  subject_teacher: { subject } = {},
+                  id
+                } = selectedHour[0] || {};
+
                 return (
                   <div key={hour} style={{ textAlign: 'center' }}>
                     <div
@@ -151,13 +209,12 @@ export default class Details extends Component {
                       {selectedHour.length === 0 ? (
                         <div className="mainEmptyBox" />
                       ) : (
-                        <div className="mainBox">
-                          <div className="classBox">{`${
-                            selectedHour[0].classroom.standard
-                          }${selectedHour[0].classroom.division}`}</div>
-                          <div className="subjectBox">
-                            {selectedHour[0].subject_teacher.subject.name}
-                          </div>
+                        <div
+                          className="mainBox"
+                          onClick={() => this.getAlternateTeachers(id)}
+                        >
+                          <div className="classBox">{`${standard}${division}`}</div>
+                          <div className="subjectBox">{subject.name}</div>
                         </div>
                       )}
                     </div>
@@ -167,44 +224,68 @@ export default class Details extends Component {
             </div>
           </div>
           <div className="alternateList">
-            {alternateList.map(alternate => (
-              <div key={alternate.empId} style={{ width: '320px' }}>
-                <TeacherBox
-                  name={alternate.name}
-                  empId={alternate.empId}
-                  mobile={alternate.mobile}
-                  subject={alternate.subject}
-                  shortName={'FS'}
-                  color="#ffd7f2"
-                  onClickEnabled={true}
-                  onBoxClicked={this.onBoxClicked}
-                />
-              </div>
-            ))}
+            {alternateList.map(alternate => {
+              const {
+                teacher: { code, full_name, id },
+                subject: { name: subjectName }
+              } = alternate;
+              return (
+                <div key={id} style={{ width: '320px' }}>
+                  <TeacherBox
+                    name={full_name}
+                    subject={subjectName}
+                    shortName={code}
+                    color="#ffd7f2"
+                    onClickEnabled={true}
+                    onBoxClicked={() => this.onBoxClicked(alternate)}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
         {showSidebar && (
           <div className="rightSidebar">
             <TeacherBox
               name={name}
-              empId={code}
-              mobile={mobile}
+              mobile={'NA'}
               shortName={code}
               color={'#ffd7d7'}
               onClickEnabled={false}
             />
             <div className="insightsMain">
-              <div className="insightTitle">insights</div>
+              <div className="insightTitle">Insights</div>
               <div className="insightDetails">
-                <div className="insightDt">Have 4 Periods Today in Total</div>
-                <div className="insightDt">Have 4 Periods Today in Total</div>
-                <div className="insightDt">Have 4 Periods Today in Total</div>
-                <div className="insightDt">Have 4 Periods Today in Total</div>
+                <div className="insightDt">
+                  {had_class_in_previous_period
+                    ? 'He had class in the previous hour'
+                    : ''}
+                </div>
+                <div className="insightDt">
+                  {have_class_in_next_period
+                    ? 'He has class in the next hour'
+                    : ''}
+                </div>
+                <div className="insightDt">
+                  {periods_in_the_same_class > 0
+                    ? `He already have ${periods_in_the_same_class} hour in this class`
+                    : 'He has no hour in this class'}
+                </div>
+                <div className="insightDt">
+                  {total_periods_allotted > 0
+                    ? `Already allocatted ${total_periods_allotted} hour`
+                    : 'No session allotted for him today'}
+                </div>
               </div>
             </div>
             <div className="footer">
               <Button className="cta cancel">Cancel</Button>
-              <Button className="cta assign">Assign</Button>
+              <Button
+                className="cta assign"
+                onClick={this.assignAlternateTeacher}
+              >
+                Assign
+              </Button>
             </div>
           </div>
         )}
