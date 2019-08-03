@@ -20,20 +20,22 @@ class Header extends Component {
   };
   render() {
     return (
-      <div className="mainHeader">
-        <div className="title" onClick={() => this.onHeaderClick()}>
-          AS<span className="pink">SIGN</span>MENT
-        </div>
-        <div className="searchBox">
-          <Input
-            className="searchInput"
-            placeholder="Search Teachers"
-            onChange={this.handleOnChange}
-          />
-          <Icon type="search" className="searchIcon" />
-        </div>
-        <div className="profile">
-          <User name="Nikhil T Nair" email="nikhil@test.com" />
+      <div style={{ height: '80px' }}>
+        <div className="mainHeader">
+          <div className="title" onClick={() => this.onHeaderClick()}>
+            AS<span className="pink">SIGN</span>MENT
+          </div>
+          <div className="searchBox">
+            <Input
+              className="searchInput"
+              placeholder="Search Teachers"
+              onChange={this.handleOnChange}
+            />
+            <Icon type="search" className="searchIcon" />
+          </div>
+          <div className="profile">
+            <User name="Nikhil T Nair" email="nikhil@test.com" />
+          </div>
         </div>
       </div>
     );
