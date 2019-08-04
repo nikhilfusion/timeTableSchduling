@@ -3,6 +3,7 @@ import { DatePicker, Icon, Button, message } from "antd";
 import _ from "lodash";
 import delve from 'dlv';
 import moment from "moment";
+import qs from "query-string";
 import { Spring, Transition, animated } from "react-spring/renderprops";
 import { API_URL } from "../../constants";
 import { convertJsonToQs } from "../../utils/common";
@@ -17,7 +18,7 @@ export default class Details extends Component {
   state = {
     showSidebar: false,
     teacherHours: [],
-    selectedDate: moment(new Date()).format("YYYY-MM-DD"),
+    selectedDate: "",
     teacherInfo: {},
     alternateList: [],
     freePeriodId: "",
@@ -25,18 +26,23 @@ export default class Details extends Component {
     insight: {},
     selectedIndex: "",
     selectedFlag: false,
-    insightTeacher: {}
+    insightTeacher: {},
+    showAlternateList: false
   };
 
   componentDidMount() {
+    const queryParams = this.props.location.search
+    const parsedDate = qs.parse(queryParams) && qs.parse(queryParams).date
+    const parsedDt = parsedDate ? parsedDate : moment(new Date()).format("YYYY-MM-DD")
     fetch(`${URL}/teachers/?id=${this.props.match.params.teacherId}`)
       .then(results => results.json())
       .then(teacherDt => {
         this.setState({
-          teacherInfo: teacherDt.results[0] || {}
+          teacherInfo: teacherDt.results[0] || {},
+          selectedDate: parsedDt
         });
       });
-    this.getHoursOfTeacher(this.state.selectedDate);
+    this.getHoursOfTeacher(parsedDt);
   }
 
   getHoursOfTeacher = date => {
@@ -70,6 +76,9 @@ export default class Details extends Component {
     this.setState({
       selectedDate
     });
+    this.props.history.push({
+      search: `date=${selectedDate}`,
+    })
   };
 
   onBoxClicked = alternateTeacherDtls => {
@@ -91,11 +100,11 @@ export default class Details extends Component {
   };
 
   getAlternateTeachers = (periodId, index) => {
-    const { selectedFlag, selectedIndex } = this.state;
+    const { selectedFlag, selectedIndex, selectedDate } = this.state;
     if (selectedIndex !== index) {
       fetch(
         `${URL}/periods/${periodId}/free-teachers/?date=${
-          this.state.selectedDate
+          selectedDate
         }`
       )
         .then(results => results.json())
@@ -133,16 +142,19 @@ export default class Details extends Component {
     })
       .then(results => results.json())
       .then(data => {
-        if (data.non_field_errors.length > 0) {
+        if (data && data.non_field_errors && data.non_field_errors.length > 0) {
           message.error(data.non_field_errors[0]);
         } else {
           message.success("Period adjustment completed Successfully");
           this.setState({
             showSidebar: false
+          }, () => {
+            window.location.reload()
           });
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log('err is ', err)
         message.error("Someting went wrong. Please try again");
       });
   };
@@ -162,7 +174,8 @@ export default class Details extends Component {
       },
       selectedFlag,
       selectedIndex,
-      insightTeacher
+      insightTeacher,
+      selectedDate
     } = this.state;
     const { full_name: name, code, mobile } = teacherInfo;
     const insightTacher =  delve(insightTeacher, 'teacher', {})
@@ -217,6 +230,7 @@ export default class Details extends Component {
                     <DatePicker
                       onChange={this.selectDatePicker}
                       defaultValue={moment(new Date(), "YYYY-MM-DD")}
+                      value={moment(selectedDate)}
                     />
                   </div>
                 </div>
@@ -268,6 +282,7 @@ export default class Details extends Component {
           >
             {show =>
               show &&
+              selectedFlag &&
               (props => (
                 <animated.div style={props}>
                   <div className="alternateList">
@@ -277,7 +292,7 @@ export default class Details extends Component {
                         subject: { name: subjectName }
                       } = alternate;
                       return (
-                        <div key={id} style={{ width: "320px" }}>
+                        <div key={id} style={{ width: "320px", marginRight: "20px" }}>
                           <TeacherBox
                             name={full_name}
                             subject={subjectName}

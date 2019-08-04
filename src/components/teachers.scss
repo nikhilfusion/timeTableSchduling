@@ -12,8 +12,8 @@ $dark: #171d35;
     min-height: 400px;
     .listInnerContainer {
       padding: 20px 0 0 20px;
-      flex-grow: 1;
       flex-basis: 30em;
+      min-width: 400px;
     }
   }
 }
