@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Spring } from 'react-spring/renderprops';
-import { API_URL } from '../constants';
+import { API_URL } from '../config';
 import TeacherBox from './TeacherBox';
 import Header from '../components/common/Header';
 

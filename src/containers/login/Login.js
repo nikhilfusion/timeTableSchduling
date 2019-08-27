@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Button, Input, message } from 'antd';
-import { API_URL } from '../../constants';
+import { API_URL } from '../../config';
 
 import './login.scss';
 const FormItem = Form.Item;

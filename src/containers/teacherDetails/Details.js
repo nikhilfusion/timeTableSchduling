@@ -5,7 +5,7 @@ import delve from 'dlv';
 import moment from "moment";
 import qs from "query-string";
 import { Spring, Transition, animated } from "react-spring/renderprops";
-import { API_URL } from "../../constants";
+import { API_URL } from "../../config";
 import { convertJsonToQs } from "../../utils/common";
 import TeacherBox from "../../components/TeacherBox";
 import Header from "../../components/common/Header";
