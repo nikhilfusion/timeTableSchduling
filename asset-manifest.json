@@ -1,15 +1,15 @@
 {
-  "main.css": "/timeTableSchduling/public/static/css/main.08973b26.chunk.css",
-  "main.js": "/timeTableSchduling/public/static/js/main.82880c5b.chunk.js",
-  "main.js.map": "/timeTableSchduling/public/static/js/main.82880c5b.chunk.js.map",
-  "runtime~main.js": "/timeTableSchduling/public/static/js/runtime~main.25163d13.js",
-  "runtime~main.js.map": "/timeTableSchduling/public/static/js/runtime~main.25163d13.js.map",
-  "static/css/2.32da70d2.chunk.css": "/timeTableSchduling/public/static/css/2.32da70d2.chunk.css",
-  "static/js/2.04aebe89.chunk.js": "/timeTableSchduling/public/static/js/2.04aebe89.chunk.js",
-  "static/js/2.04aebe89.chunk.js.map": "/timeTableSchduling/public/static/js/2.04aebe89.chunk.js.map",
-  "index.html": "/timeTableSchduling/public/index.html",
-  "precache-manifest.af590cdfde5f3d90f3760813ddf300f1.js": "/timeTableSchduling/public/precache-manifest.af590cdfde5f3d90f3760813ddf300f1.js",
-  "service-worker.js": "/timeTableSchduling/public/service-worker.js",
-  "static/css/2.32da70d2.chunk.css.map": "/timeTableSchduling/public/static/css/2.32da70d2.chunk.css.map",
-  "static/css/main.08973b26.chunk.css.map": "/timeTableSchduling/public/static/css/main.08973b26.chunk.css.map"
+  "main.css": "/timeTableSchduling/static/css/main.08973b26.chunk.css",
+  "main.js": "/timeTableSchduling/static/js/main.45dcb8fc.chunk.js",
+  "main.js.map": "/timeTableSchduling/static/js/main.45dcb8fc.chunk.js.map",
+  "runtime~main.js": "/timeTableSchduling/static/js/runtime~main.b3f32e71.js",
+  "runtime~main.js.map": "/timeTableSchduling/static/js/runtime~main.b3f32e71.js.map",
+  "static/css/2.32da70d2.chunk.css": "/timeTableSchduling/static/css/2.32da70d2.chunk.css",
+  "static/js/2.3419d985.chunk.js": "/timeTableSchduling/static/js/2.3419d985.chunk.js",
+  "static/js/2.3419d985.chunk.js.map": "/timeTableSchduling/static/js/2.3419d985.chunk.js.map",
+  "index.html": "/timeTableSchduling/index.html",
+  "precache-manifest.919e383eb77ccc9e00ea6e112d8bd9ad.js": "/timeTableSchduling/precache-manifest.919e383eb77ccc9e00ea6e112d8bd9ad.js",
+  "service-worker.js": "/timeTableSchduling/service-worker.js",
+  "static/css/2.32da70d2.chunk.css.map": "/timeTableSchduling/static/css/2.32da70d2.chunk.css.map",
+  "static/css/main.08973b26.chunk.css.map": "/timeTableSchduling/static/css/main.08973b26.chunk.css.map"
 }

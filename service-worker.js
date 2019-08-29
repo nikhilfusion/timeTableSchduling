@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/timeTableSchduling/public/precache-manifest.af590cdfde5f3d90f3760813ddf300f1.js"
+  "/timeTableSchduling/precache-manifest.919e383eb77ccc9e00ea6e112d8bd9ad.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/timeTableSchduling/public/index.html", {
+workbox.routing.registerNavigationRoute("/timeTableSchduling/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
